@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.launchcode.techjobs.oo.*;
 
+import static java.lang.System.lineSeparator;
 import static org.junit.Assert.*;
 
 /**
@@ -52,6 +53,43 @@ public class JobTest {
 
         assertNotEquals(job1, job2);
 
+    }
+
+    @Test
+    public void testToStringStartsAndEndsWithNewLine() {
+        var job = new Job("Product tester", new Employer("ACME"), new Location("Desert"),
+                new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        var eol = lineSeparator();
+        assertTrue(job.toString().startsWith(eol));
+        assertTrue(job.toString().endsWith(eol));
+    }
+
+    @Test
+    public void testToStringContainsCorrectLabelsAndData() {
+        var job = new Job("Product tester", new Employer("ACME"), new Location("Desert"),
+                new PositionType("Quality control"), new CoreCompetency("Persistence"));
+
+        var expectedString = String.format("%nID: %s%nName: Product tester%nEmployer: ACME%nLocation: Desert%n" +
+                "Position Type: Quality control%nCore Competency: Persistence%n", job.getId());
+
+        assertEquals(expectedString, job.toString());
+    }
+
+    @Test
+    public void testToStringHandlesEmptyField() {
+        var job = new Job("Product tester", new Employer("ACME"), null,
+                new PositionType("Quality control"), null);
+
+        var expectedString = String.format("%nID: %s%nName: Product tester%nEmployer: ACME%nLocation: Data not available%n" +
+                "Position Type: Quality control%nCore Competency: Data not available%n", job.getId());
+
+        assertEquals(expectedString, job.toString());
+    }
+
+    @Test
+    public void testToStringHandlesJobWithOnlyIdField() {
+        var job = new Job();
+        assertEquals("OOPS! This job does not seem to exist.", job.toString());
     }
 
 }
