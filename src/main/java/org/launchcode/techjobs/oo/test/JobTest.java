@@ -51,7 +51,7 @@ public class JobTest {
         var job2 = new Job("Product tester", new Employer("ACME"), new Location("Desert"),
                 new PositionType("Quality control"), new CoreCompetency("Persistence"));
 
-        assertNotEquals(job1, job2);
+        assertFalse(job1.equals(job2));
 
     }
 
@@ -59,9 +59,9 @@ public class JobTest {
     public void testToStringStartsAndEndsWithNewLine() {
         var job = new Job("Product tester", new Employer("ACME"), new Location("Desert"),
                 new PositionType("Quality control"), new CoreCompetency("Persistence"));
-        var eol = lineSeparator();
-        assertTrue(job.toString().startsWith(eol));
-        assertTrue(job.toString().endsWith(eol));
+        var charactersArray = job.toString().toCharArray();
+        assertEquals('\n', charactersArray[0]);
+        assertEquals('\n', charactersArray[charactersArray.length - 1]);
     }
 
     @Test
@@ -69,8 +69,13 @@ public class JobTest {
         var job = new Job("Product tester", new Employer("ACME"), new Location("Desert"),
                 new PositionType("Quality control"), new CoreCompetency("Persistence"));
 
-        var expectedString = String.format("%nID: %s%nName: Product tester%nEmployer: ACME%nLocation: Desert%n" +
-                "Position Type: Quality control%nCore Competency: Persistence%n", job.getId());
+        var expectedString = "\n" +
+                "ID: " + job.getId() + "\n" +
+                "Name: Product tester\n" +
+                "Employer: ACME\n" +
+                "Location: Desert\n" +
+                "Position Type: Quality control\n" +
+                "Core Competency: Persistence\n";
 
         assertEquals(expectedString, job.toString());
     }
@@ -78,10 +83,15 @@ public class JobTest {
     @Test
     public void testToStringHandlesEmptyField() {
         var job = new Job("Product tester", new Employer("ACME"), null,
-                new PositionType("Quality control"), null);
+                new PositionType("Quality control"), new CoreCompetency(""));
 
-        var expectedString = String.format("%nID: %s%nName: Product tester%nEmployer: ACME%nLocation: Data not available%n" +
-                "Position Type: Quality control%nCore Competency: Data not available%n", job.getId());
+        var expectedString = "\n" +
+                "ID: " + job.getId() + "\n" +
+                "Name: Product tester\n" +
+                "Employer: ACME\n" +
+                "Location: Data not available\n" +
+                "Position Type: Quality control\n" +
+                "Core Competency: Data not available\n";
 
         assertEquals(expectedString, job.toString());
     }

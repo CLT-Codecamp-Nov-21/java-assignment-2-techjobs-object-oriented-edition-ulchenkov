@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Job {
 
-    private int id;
+    private final int id;
     private static int nextId = 1;
 
     private String name;
@@ -96,20 +96,24 @@ public class Job {
 
     @Override
     public String toString() {
-        return name == null && employer == null && location == null && positionType == null && coreCompetency == null ?
-            "OOPS! This job does not seem to exist." :
-            String.format("%n" +
-                "ID: %s%n" +
-                "Name: %s%n" +
-                "Employer: %s%n" +
-                "Location: %s%n" +
-                "Position Type: %s%n" +
-                "Core Competency: %s%n",
-                id,
-                name == null ? "Data not available" : name,
-                employer == null ? "Data not available" : employer.getValue(),
-                location == null ? "Data not available" : location.getValue(),
-                positionType == null ? "Data not available" : positionType.getValue(),
-                coreCompetency == null ? "Data not available" : coreCompetency.getValue());
+        return  (name == null || name.isEmpty()) &&
+                (employer == null || employer.getValue().isEmpty()) &&
+                (location == null || location.getValue().isEmpty()) &&
+                (positionType == null || positionType.getValue().isEmpty()) &&
+                (coreCompetency == null || coreCompetency.getValue().isEmpty()) ?
+                    "OOPS! This job does not seem to exist." :
+                    String.format("\n" +
+                        "ID: %s\n" +
+                        "Name: %s\n" +
+                        "Employer: %s\n" +
+                        "Location: %s\n" +
+                        "Position Type: %s\n" +
+                        "Core Competency: %s\n",
+                        id,
+                        name == null || name.isEmpty() ? "Data not available" : name,
+                        employer == null || employer.getValue().isEmpty() ? "Data not available" : employer.getValue(),
+                        location == null || location.getValue().isEmpty() ? "Data not available" : location.getValue(),
+                        positionType == null || positionType.getValue().isEmpty() ? "Data not available" : positionType.getValue(),
+                        coreCompetency == null || coreCompetency.getValue().isEmpty() ? "Data not available" : coreCompetency.getValue());
     }
 }
